@@ -104,18 +104,8 @@ public class BasicItemController {
     }
 
     @PostMapping("/edit/{itemId}")
-    public String editItem(@PathVariable Long itemId,
-                           @RequestParam String itemName,
-                           @RequestParam Integer price,
-                           @RequestParam Integer quantity,
-                           Model model) {
-        Item item = itemRepository.findById(itemId);
-
-        item.setItemName(itemName);
-        item.setPrice(price);
-        item.setQuantity(quantity);
-
-        model.addAttribute("item", item);
+    public String editItem(@PathVariable Long itemId, @ModelAttribute Item item) {
+        itemRepository.update(itemId, item);
 
         return "/basic/item";
     }
