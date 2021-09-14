@@ -78,6 +78,7 @@ public class BasicItemController {
      */
     @PostMapping("/add")
     public String addItemV3(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
+        log.debug("itemName={}, itemPrice={}, itemQuantity={}", item.getItemName(), item.getPrice(), item.getQuantity());
         Item savedItem = itemRepository.save(item);
 
         redirectAttributes.addAttribute("itemId", savedItem.getId());
@@ -98,7 +99,7 @@ public class BasicItemController {
 
     @GetMapping("/edit/{itemId}")
     public String editForm(@PathVariable Long itemId, Model model) {
-        log.info("itemId={}", itemId);
+        log.debug("itemId={}", itemId);
         Item item = itemRepository.findById(itemId);
 
         model.addAttribute("item", item);
