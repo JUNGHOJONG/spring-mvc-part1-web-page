@@ -1,4 +1,4 @@
-package hello.itemservice.web.item.basic;
+package hello.itemservice.web.form;
 
 import hello.itemservice.domain.item.Item;
 import hello.itemservice.domain.item.ItemRepository;
@@ -16,15 +16,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/basic/items")
 @Controller
-public class BasicItemController {
+public class FormItemController {
 
     private final ItemRepository itemRepository;
-
-    @PostConstruct
-    public void init() {
-        itemRepository.save(new Item("itemA", 10000, 10));
-        itemRepository.save(new Item("itemB", 30000, 30));
-    }
 
     @GetMapping
     public String items(Model model) {
@@ -47,34 +41,9 @@ public class BasicItemController {
         return "/basic/addForm";
     }
 
-//    @PostMapping("/add")
-    public String addItemV1(@RequestParam String itemName,
-                          @RequestParam Integer price,
-                          @RequestParam Integer quantity,
-                          Model model) {
-        log.info("item={}, price={}, quantity={}", itemName, price, quantity);
-        // 저장하고 내부 호출
-        Item item = new Item(itemName, price, quantity);
-        Item savedItem = itemRepository.save(item);
-
-        model.addAttribute("item", savedItem);
-        return "/basic/item";
-    }
-
-    /**
-     * model.addAttribute("item", item) 자동 추가
-     */
-//    @PostMapping("/add")
-    public String addItemV2(@ModelAttribute("item") Item item) {
-        itemRepository.save(item);
-
-        return "/basic/item";
-    }
-
     /**
      * model.addAttribute("item", item) 자동 추가
      * 생략시 model에 저장되는 name은 클래스명 첫글자만 소문자로 등록 Item -> item
-     * 추천!!!
      */
     @PostMapping("/add")
     public String addItemV3(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
@@ -84,17 +53,6 @@ public class BasicItemController {
         redirectAttributes.addAttribute("itemId", savedItem.getId());
         redirectAttributes.addAttribute("status", true);
         return "redirect:/basic/items/{itemId}";
-    }
-
-    /**
-     * @ModelAttribute 자체 생략 가능
-     * model.addAttribute(item) 자동 추가
-     */
-//    @PostMapping("/add")
-    public String addItemV4(Item item) {
-        itemRepository.save(item);
-
-        return "/basic/item";
     }
 
     @GetMapping("/edit/{itemId}")
