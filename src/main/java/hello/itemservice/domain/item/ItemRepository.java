@@ -24,6 +24,10 @@ public class ItemRepository {
         savedItem.setItemName(updateItem.getItemName());
         savedItem.setPrice(updateItem.getPrice());
         savedItem.setQuantity(updateItem.getQuantity());
+        savedItem.setOpen(updateItem.getOpen());
+        savedItem.setItemType(updateItem.getItemType());
+        savedItem.setDeliveryCode(updateItem.getDeliveryCode());
+        savedItem.setRegions(updateItem.getRegions());
     }
 
     public Item findById(Long itemId) {

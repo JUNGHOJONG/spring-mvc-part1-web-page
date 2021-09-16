@@ -48,7 +48,7 @@ public class FormItemController {
      */
     @PostMapping("/add")
     public String addItemV3(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
-        log.debug("itemName={}, itemPrice={}, itemQuantity={}", item.getItemName(), item.getPrice(), item.getQuantity());
+        log.debug("open={}, itemName={}, itemPrice={}, itemQuantity={}",item.getOpen(), item.getItemName(), item.getPrice(), item.getQuantity());
         Item savedItem = itemRepository.save(item);
 
         redirectAttributes.addAttribute("itemId", savedItem.getId());
