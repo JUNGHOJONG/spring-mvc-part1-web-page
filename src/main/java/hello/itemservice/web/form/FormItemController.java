@@ -2,6 +2,7 @@ package hello.itemservice.web.form;
 
 import hello.itemservice.domain.item.Item;
 import hello.itemservice.domain.item.ItemRepository;
+import hello.itemservice.domain.item.ItemType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -32,6 +33,11 @@ public class FormItemController {
         return regions;
     }
 
+    @ModelAttribute("itemTypes")
+    public ItemType[] itemTypes() {
+        return ItemType.values();
+    }
+
     @GetMapping
     public String items(Model model) {
         List<Item> items = itemRepository.findAll();
@@ -60,7 +66,7 @@ public class FormItemController {
      */
     @PostMapping("/add")
     public String addItemV3(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
-        log.debug("open={}, itemName={}, itemPrice={}, itemQuantity={}",item.getOpen(), item.getItemName(), item.getPrice(), item.getQuantity());
+        log.debug("itemType={}, open={}, itemName={}, itemPrice={}, itemQuantity={}", item.getItemType(), item.getOpen(), item.getItemName(), item.getPrice(), item.getQuantity());
         Item savedItem = itemRepository.save(item);
 
         redirectAttributes.addAttribute("itemId", savedItem.getId());
